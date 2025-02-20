@@ -65,4 +65,21 @@ const authUser = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { registorUser, authUser };
+// /api/user?search=vrushabh
+const allUser = asyncHandler(async (req, res) => {
+    const keyword = req.query.search ? {
+        $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+        ],
+    } : {};
+    
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.send(users);
+    if (!users) {
+        res.status(404);
+        throw new Error("Users not found");
+    }
+    console.log('keyword', keyword);
+})
+module.exports = { registorUser, authUser, allUser };

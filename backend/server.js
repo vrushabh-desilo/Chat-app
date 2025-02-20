@@ -4,7 +4,7 @@ const { chats } = require('./data/data');
 const connectDB = require('./config/db');
 const colors = require('colors');
 const userRoutes = require('./routes/userRoutes');
-const { notFound, errorHandler } = require('./middlewares/errorMiddlewares');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 dotenv.config();
 connectDB()
